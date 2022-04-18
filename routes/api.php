@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Post;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -32,4 +33,9 @@ Route::get('/posts', function () {
 // Find the post by slug. Omitting ':slug' will default to finding the post via its id.
 Route::get('/posts/{post:slug}', function (Post $post) {
     return Post::find($post);
+});
+
+// Find all posts that belong to a category.
+Route::get('/category/{category:slug}', function (Category $category) {
+    return $category->posts;
 });
