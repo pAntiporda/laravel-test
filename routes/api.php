@@ -30,7 +30,9 @@ Route::get('/', function () {
 Route::get('/posts', function () {
     // all() gets all the records without any condition while get() is used in conjunction with conditions
     // return Post::all();
-    return Post::latest()->with('category', 'author')->get(); // solving n+1 query problem by eager loading (with).
+    // return Post::latest()->with('category', 'author')->get(); // solving n+1 query problem by eager loading (with).
+
+    return Post::latest()->without(['category', 'author'])->get(); // returns all the posts in descending order and eager loads the category and author by default (see Post model)
 });
 
 // Find the post by slug. Omitting ':slug' will default to finding the post via its id.
@@ -40,10 +42,14 @@ Route::get('/posts/{post:slug}', function (Post $post) {
 
 // Find all posts that belong to a category.
 Route::get('/category/{category:slug}', function (Category $category) {
-    return $category->posts->load(['category', 'author']); // eager loads the category and author
+    // return $category->posts->load(['category', 'author']); // eager loads the category and author
+
+    return $category->posts; // eager loads the category and author by default (see Post model)
 });
 
 // Find all posts that belong to an author via its username.
 Route::get('/authors/{author:username}', function (User $author) {
-    return $author->posts->load(['category', 'author']); // eager loads the category and author
+    // return $author->posts->load(['category', 'author']); // eager loads the category and author
+
+    return $author->posts; // eager loads the category and author by default (see Post model)
 });
