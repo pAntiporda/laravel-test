@@ -40,10 +40,10 @@ Route::get('/posts/{post:slug}', function (Post $post) {
 
 // Find all posts that belong to a category.
 Route::get('/category/{category:slug}', function (Category $category) {
-    return $category->posts;
+    return $category->posts->load(['category', 'author']); // eager loads the category and author
 });
 
 // Find all posts that belong to an author via its username.
 Route::get('/authors/{author:username}', function (User $author) {
-    return $author->posts;
+    return $author->posts->load(['category', 'author']); // eager loads the category and author
 });
