@@ -34,7 +34,7 @@ Route::get('/posts', function () {
 
 // Find the post by slug. Omitting ':slug' will default to finding the post via its id.
 Route::get('/posts/{post:slug}', function (Post $post) {
-    return Post::find($post);
+    return $post;
 });
 
 // Find all posts that belong to a category.
