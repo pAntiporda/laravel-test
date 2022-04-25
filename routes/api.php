@@ -29,7 +29,7 @@ Route::get('/', function () {
 Route::get('/posts', function () {
     // all() gets all the records without any condition while get() is used in conjunction with conditions
     // return Post::all();
-    return Post::with('category', 'user')->get(); // solving n+1 query problem
+    return Post::latest()->with('category', 'author')->get(); // solving n+1 query problem by eager loading (with).
 });
 
 // Find the post by slug. Omitting ':slug' will default to finding the post via its id.
