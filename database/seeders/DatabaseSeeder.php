@@ -50,10 +50,13 @@ class DatabaseSeeder extends Seeder
         // Override the default faker data in the factory to associate all Posts to a certain user. Would only override the given attributes, the rest would be fake.
         User::factory()->create([
             'name' => 'John Doe',
+            'username' => 'johndoe',
         ]);
 
         Post::factory(5)->create([
             'user_id' => User::first()->id,
         ]);
+
+        Post::factory()->create();
     }
 }

@@ -2,6 +2,7 @@
 
 use App\Models\Post;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -40,4 +41,9 @@ Route::get('/posts/{post:slug}', function (Post $post) {
 // Find all posts that belong to a category.
 Route::get('/category/{category:slug}', function (Category $category) {
     return $category->posts;
+});
+
+// Find all posts that belong to an author via its username.
+Route::get('/authors/{author:username}', function (User $author) {
+    return $author->posts;
 });
