@@ -19,6 +19,17 @@ class Post extends Model
 
     protected $with = ['category', 'author'];
 
+    // Query scope. Syntax is scopeName: (parameters). $query is implicitly passed to the scope.
+    // Accessible via filter() method.
+    public function scopeFilter($query, array $filters)
+    {
+        // Chained funcion. Only call the function WHEN the first argument is true
+        $query
+        ->when($filters['search'] ?? false, fn ($query, $search) => $query
+            ->where('title', 'like', "%{$search}%")
+            ->orWhere('body', 'like', "%{$search}%"));
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);

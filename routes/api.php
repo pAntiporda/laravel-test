@@ -4,6 +4,7 @@ use App\Models\Post;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,18 +28,9 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/posts', function () {
-    // all() gets all the records without any condition while get() is used in conjunction with conditions
-    // return Post::all();
-    // return Post::latest()->with('category', 'author')->get(); // solving n+1 query problem by eager loading (with).
-
-    return Post::latest()->without(['category', 'author'])->get(); // returns all the posts in descending order and eager loads the category and author by default (see Post model)
-});
-
+Route::get('/posts', [PostController::class, 'index']);
 // Find the post by slug. Omitting ':slug' will default to finding the post via its id.
-Route::get('/posts/{post:slug}', function (Post $post) {
-    return $post;
-});
+Route::get('/posts/{post:slug}', [PostController::class, 'show']);
 
 // Find all posts that belong to a category.
 Route::get('/category/{category:slug}', function (Category $category) {
