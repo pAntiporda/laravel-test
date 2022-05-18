@@ -5,6 +5,7 @@ use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,3 +46,5 @@ Route::get('/authors/{author:username}', function (User $author) {
 
     return $author->posts; // eager loads the category and author by default (see Post model)
 });
+
+Route::post('/register', [RegisterController::class, 'store']);
