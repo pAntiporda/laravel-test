@@ -51,6 +51,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    // Mutator -> mutate the value before it is saved to the database. Syntax is: SETAttributeNameATTRIBUTE(value)
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = bcrypt($password);
+    }
+
+    // Accessor -> mutate the value before it is returned to the user. Syntax is: GETAttributeNameATTRIBUTE()
+    // public function getPasswordAttribute($password) {
+    //     return '********';
+    // };
+
+
     public function posts()
     {
         return $this->hasMany(Post::class);
