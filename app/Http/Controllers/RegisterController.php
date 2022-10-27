@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 
 class RegisterController extends Controller
@@ -14,51 +13,22 @@ class RegisterController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RegisterRequest $request)
     {
-        $attributes = request()->validate([
-            'name' => 'required',
-            'username' => ['required', Rule::unique('users', 'username')],
-            'email' => ['required', 'email', Rule::unique('users', 'email')],
-            'password' => ['required'],
-        ]);
+        // Validation rules have been moved to RegisterRequest to override failedValidation
+        // $attributes = request()->validate([
+        //     'name' => 'required',
+        //     'username' => ['required', Rule::unique('users', 'username')],
+        //     'email' => ['required', 'email', Rule::unique('users', 'email')],
+        //     'password' => ['required'],
+        // ]);
 
+        // Safe to save the attributes as they've already been validated at this point
+        $attributes = $request->validated();
         User::create($attributes);
-
-        return redirect('/api');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return [
+            'type' => 'success',
+            'message' => 'Account successfully created.'
+        ];
     }
 }
