@@ -17,7 +17,7 @@ class Post extends Model
         'body',
     ];
 
-    protected $with = ['category', 'author'];
+    protected $with = ['category', 'author', 'comments'];
 
     // Query scope. Syntax is scopeName: (parameters). $query is implicitly passed to the scope.
     // Accessible via filter() method.
@@ -33,6 +33,11 @@ class Post extends Model
         $query->when($filters['category'] ?? false, fn ($query, $category) =>
         $query->whereHas('category', fn ($query) =>
         $query->where('slug', $category)));
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 
     public function category()

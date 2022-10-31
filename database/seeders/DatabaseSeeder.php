@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use \App\Models\User;
 use \App\Models\Category;
+use App\Models\Comment;
 use \App\Models\Post;
 
 class DatabaseSeeder extends Seeder
@@ -53,10 +54,13 @@ class DatabaseSeeder extends Seeder
             'username' => 'johndoe',
         ]);
 
-        Post::factory(15)->create([
+        $posts = Post::factory(15)->create([
             'user_id' => $user->id,
         ]);
 
         Post::factory()->create();
+        Comment::factory(4)->create([
+            'post_id' => $posts->first()->id,
+        ]);
     }
 }
