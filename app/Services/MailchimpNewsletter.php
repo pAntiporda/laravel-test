@@ -11,7 +11,7 @@ class MailchimpNewsletter implements Newsletter
         //
     }
 
-    public function subscribe(string $email, string $listId = null)
+    public function subscribe(string $email, ?string $listId = null)
     {
         // MailchimpNewsletter implementattion to subsribe the $email to appropriate listId
         return 'okay';
