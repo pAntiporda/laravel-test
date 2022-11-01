@@ -5,6 +5,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PostCommentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,6 +32,9 @@ Route::get('/', function () {
 Route::get('/posts', [PostController::class, 'index']);
 // Find the post by slug. Omitting ':slug' will default to finding the post via its id.
 Route::get('/posts/{post:slug}', [PostController::class, 'show']);
+
+// Create a new comment via the given post slug
+Route::post('/posts/{post:slug}/comments', [PostCommentController::class, 'store'])->middleware('auth:sanctum');
 
 // Find all posts that belong to a category.
 Route::get('/category/{category:slug}', function (Category $category) {
