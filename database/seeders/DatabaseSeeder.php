@@ -52,6 +52,8 @@ class DatabaseSeeder extends Seeder
         $user = User::factory()->create([
             'name' => 'John Doe',
             'username' => 'johndoe',
+            'password' => 'password',
+            'is_admin' => true,
         ]);
 
         $posts = Post::factory(15)->create([
