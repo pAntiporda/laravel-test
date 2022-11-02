@@ -58,7 +58,19 @@ Route::post('/register', [AuthController::class, 'register'])->name('auth.regist
 Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout')->middleware('auth:sanctum');
 
-Route::middleware(['auth:sanctum', 'admin'])->group(function () {
+// Admin middleware way. Create a middleware and make it avaialbe to use inside the Kernel by adding an entry with 'admin' key
+// Route::middleware(['auth:sanctum', 'admin'])->group(function () {
+//     Route::post('/admin/posts', [AdminPostController::class, 'store'])->name('admin.store');
+//     Route::patch('/admin/posts/{post:slug}', [AdminPostController::class, 'update'])->name('admin.update');
+//     Route::delete('/admin/posts/{post:slug}', [AdminPostController::class, 'destroy'])->name('admin.delete');
+// });
+
+// Use the gate-middleware auth to make use of laravel existing handler for auth. Define the Gate (key 'admin') in AppServiceProvider then use with
+// can keyword (from middlewares in Kernel)
+Route::middleware(['auth:sanctum', 'can:admin'])->group(function () {
+    Route::get('/admin', function () {
+        return 'admin test';
+    });
     Route::post('/admin/posts', [AdminPostController::class, 'store'])->name('admin.store');
     Route::patch('/admin/posts/{post:slug}', [AdminPostController::class, 'update'])->name('admin.update');
     Route::delete('/admin/posts/{post:slug}', [AdminPostController::class, 'destroy'])->name('admin.delete');
