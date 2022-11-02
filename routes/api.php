@@ -58,5 +58,8 @@ Route::post('/register', [AuthController::class, 'register'])->name('auth.regist
 Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout')->middleware('auth:sanctum');
 
-Route::post('/admin/posts', [AdminPostController::class, 'store'])->name('admin.store')->middleware(['auth:sanctum', 'admin']);
-// slug rule: [required, Rule::unique('posts', 'slug')->ignore($post)]
+Route::middleware(['auth:sanctum', 'admin'])->group(function () {
+    Route::post('/admin/posts', [AdminPostController::class, 'store'])->name('admin.store');
+    Route::patch('/admin/posts/{post:slug}', [AdminPostController::class, 'update'])->name('admin.update');
+    Route::delete('/admin/posts/{post:slug}', [AdminPostController::class, 'destroy'])->name('admin.delete');
+});
