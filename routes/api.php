@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminPostController;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -57,7 +58,5 @@ Route::post('/register', [AuthController::class, 'register'])->name('auth.regist
 Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout')->middleware('auth:sanctum');
 
-Route::get('/admin', function () {
-    return 'Admin only';
-})->middleware(['auth:sanctum', 'admin']);
+Route::post('/admin/posts', [AdminPostController::class, 'store'])->name('admin.store')->middleware(['auth:sanctum', 'admin']);
 // slug rule: [required, Rule::unique('posts', 'slug')->ignore($post)]
