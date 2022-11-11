@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\NewPostCreated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -51,4 +52,9 @@ class Post extends Model
         // associated with a Post an 'author', we call the method to get the user associated with the Post 'author' but use the 'user_id' as the foreign key.
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    // Triggers listed events when certain action has been done to the model given they're registered in EventServiceProvider
+    protected $dispatchesEvents = [
+        'created' => NewPostCreated::class,
+    ];
 }

@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\NewPostCreated;
 use App\Events\SubscribedToOtherMarketing;
+use App\Listeners\LogNewPostCreated;
 use App\Listeners\UpdateCampaignMonitorList;
 use App\Listeners\UpdateSalesforceList;
 use Illuminate\Auth\Events\Registered;
@@ -21,10 +23,15 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        // Not necessary if the class of the object inside the Listeners are type hinted in their handle() methods
+        // and if property shouldDiscoverEvents() method is returning true.
         SubscribedToOtherMarketing::class => [
             UpdateCampaignMonitorList::class,
             UpdateSalesforceList::class,
         ],
+        NewPostCreated::class => [
+            LogNewPostCreated::class,
+        ]
     ];
 
     /**

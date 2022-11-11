@@ -2,12 +2,12 @@
 
 namespace App\Listeners;
 
-use App\Events\SubscribedToOtherMarketing;
+use App\Events\NewPostCreated;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
 // If for instance this listener takes time, it should be implementing ShouldQueue interface to put the task in the Queue
-class UpdateCampaignMonitorList
+class LogNewPostCreated
 {
     /**
      * Create the event listener.
@@ -22,12 +22,11 @@ class UpdateCampaignMonitorList
     /**
      * Handle the event.
      *
-     * @param  \App\Events\SubscribedToOtherMarketing  $event
+     * @param  \App\Events\NewPostCreated  $event
      * @return void
      */
-    public function handle(SubscribedToOtherMarketing $event)
+    public function handle(NewPostCreated $event)
     {
-        // Test only
-        info('Sent user details to Campaign Monitor: ' . $event->email);
+        info('New Post has been added : ' . $event->post->title);
     }
 }

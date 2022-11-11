@@ -6,6 +6,7 @@ use App\Events\SubscribedToOtherMarketing;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
+// If for instance this listener takes time, it should be implementing ShouldQueue interface to put the task in the Queue
 class UpdateSalesforceList
 {
     /**
