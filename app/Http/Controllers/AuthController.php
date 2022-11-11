@@ -6,8 +6,10 @@ use App\Http\Requests\AuthLoginRequest;
 use \Illuminate\Http\Request;
 use App\Http\Requests\AuthRegisterRequest;
 use App\Http\Resources\AuthResource;
+use App\Mail\SendWelcomeEmail;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -24,6 +26,10 @@ class AuthController extends Controller
         // Safe to save the attributes as they've already been validated at this point
         $attributes = $request->validated();
         $user = User::create($attributes);
+
+        // Send welcome email upon user creation
+        Mail::to($user)->send(new SendWelcomeEmail($user));
+
         // Create a token to be used within Bearer Token to access protected routes
         $user->token = $user->createToken('testTokenKey')->plainTextToken;
         return new AuthResource($user);
